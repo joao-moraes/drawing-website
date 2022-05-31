@@ -15,4 +15,25 @@ gradient.addColorStop(6 * STOP, 'rgb(255, 0, 0)');
 p_ctx.fillStyle = gradient;
 p_ctx.fillRect(0, 0, primary.width, primary.height);
 
-//primary.addEventListener("mousedown")
+// update the desired primary color based on mouse click
+primary.addEventListener("mousedown", event)
+
+
+
+// draw and update the hue picker
+let hue = document.getElementById("hue-sat");
+let h_ctx = hue.getContext("2d");
+let currentColor = [255, 0, 0];
+
+// x-axis gradient
+let gradientX = h_ctx.createLinearGradient(hue.width, 0, 0, 0);
+gradientX.addColorStop(0, `rgb(${currentColor[0]}, ${currentColor[1]}, ${currentColor[2]})`);
+gradientX.addColorStop(1, `rgb(255, 255, 255)`);
+h_ctx.fillStyle = gradientX;
+h_ctx.fillRect(0, 0, hue.width, hue.height);
+// y-axis gradient
+let gradientY = h_ctx.createLinearGradient(hue.width, 0, hue.width, hue.height);
+gradientY.addColorStop(0, `rgba(0, 0, 0, 0)`);
+gradientY.addColorStop(1, `rgba(0, 0, 0, 1)`);
+h_ctx.fillStyle = gradientY;
+h_ctx.fillRect(0, 0, hue.width, hue.height);
