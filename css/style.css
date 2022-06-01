@@ -1,3 +1,7 @@
 canvas {
     border-style: none;
 }
+
+#chosen-color {
+    border-radius: 10px;
+}
