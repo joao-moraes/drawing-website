@@ -5,9 +5,10 @@
 let primary = document.getElementById("primary");
 let p_ctx = primary.getContext("2d");
 const STOP = 1 / 6;
-let gradient = p_ctx.createLinearGradient(0, 0, 0, primary.height);
+
 
 function drawPrimGradient() {
+    let gradient = p_ctx.createLinearGradient(0, 0, 0, primary.height);
     gradient.addColorStop(0, 'rgb(255, 0, 0)');
     gradient.addColorStop(STOP, 'rgb(255, 255, 0)');
     gradient.addColorStop(2 * STOP, 'rgb(0, 255, 0)');
@@ -29,36 +30,34 @@ function drawPrimGuide(y_prim) {
     p_ctx.stroke();
 }
 
+// redraw the primary picker to obtain the clicked color without the guideline blocking it
+function findPrimary(y) {
+    drawPrimGradient();
+    let primaryData = p_ctx.getImageData(1, y, 1, 1);
+    let pixelPrimary = primaryData.data;
+    return `rgba(${pixelPrimary[0]}, ${pixelPrimary[1]}, ${pixelPrimary[2]}, ${pixelPrimary[3] / 255})`;
+}
 //
 // update the desired primary color based on mouse click. Uses three Event Listeners to detect mousedown, drag, and release
-let y_prim = 0;
 let primaryColor = "rgb(255, 0, 0, 1)";
-let primaryData;
-let pixelPrimary;
 let mouseDownPrimary = false;
 primary.addEventListener("mousedown", function(event) {
     mouseDownPrimary = true;
-    y_prim = event.offsetY;
-    drawPrimGradient();
-    primaryData = p_ctx.getImageData(1, y_prim, 1, 1);
-    pixelPrimary = primaryData.data;
-    primaryColor = `rgba(${pixelPrimary[0]}, ${pixelPrimary[1]}, ${pixelPrimary[2]}, ${pixelPrimary[3] / 255})`;
+    let y = event.offsetY;
 
+    primaryColor = findPrimary(y)
     drawPrimGradient();
     findColor(x_hue, y_hue, primaryColor);
-    drawPrimGuide(y_prim);
-
+    drawPrimGuide(y);
 });
 primary.addEventListener("mousemove", function(event) {
     if (mouseDownPrimary) {
-        drawPrimGradient();
-        y_prim = event.offsetY;
-        primaryData = p_ctx.getImageData(1, y_prim, 1, 1);
-        pixelPrimary = primaryData.data;
-        primaryColor = `rgba(${pixelPrimary[0]}, ${pixelPrimary[1]}, ${pixelPrimary[2]}, ${pixelPrimary[3] / 255})`;
+        let y = event.offsetY;
 
+        primaryColor = findPrimary(y)
+        drawPrimGradient();
         findColor(x_hue, y_hue, primaryColor);
-        drawPrimGuide(y_prim);
+        drawPrimGuide(y);
     }
 });
 document.addEventListener("mouseup", function(event) {
@@ -88,12 +87,11 @@ function makeHue(currentColor) {
 
 //
 // select the desired color on the hue box
-let hueData;
-let pixelHue;
 let mouseDownHue = false;
 let x_hue = hue.width;
 let y_hue = 0;
 let chosenColor;
+
 // event listeners for the hue selector
 hue.addEventListener("mousedown", function(event) {
     mouseDownHue = true;
@@ -114,7 +112,7 @@ document.addEventListener("mouseup", function(event) {
     mouseDownHue = false;
 });
 
-// draw the guide lines showing location of hue selected
+// draw the guide lines showing location of selected hue
 function drawGuide(x_hue, y_hue) {
     if (x_hue % 1 == 0) {
         x_hue += 0.5;
@@ -134,6 +132,8 @@ function drawGuide(x_hue, y_hue) {
     h_ctx.closePath();
     h_ctx.stroke();
 }
+
+//
 // updates the actual desired color variable
 let pickedColor = document.getElementById("chosen-color");
 let picked_ctx = pickedColor.getContext("2d");
@@ -143,17 +143,17 @@ function pickColor(pixelHue) {
     chosenColor = pixelHue;
 }
 
+// 
 function findColor(x, y, primary) {
-    // build hue box
     makeHue(primary);
-    // get chosen hue based on current pos
-    hueData = h_ctx.getImageData(x_hue, y_hue, 1, 1);
-    pixelHue = hueData.data;
+    let hueData = h_ctx.getImageData(x, y, 1, 1);
+    let pixelHue = hueData.data;
     pixelHue[3] /= 255;
-    // update chosen color box
     pickColor(pixelHue);
-    // redraw guidelines
     drawGuide(x, y);
 }
 
-findColor(hue.width, hue.height, 'rgba(255, 0, 0, 1');
+drawPrimGradient();
+makeHue('rgba(255, 0, 0, 1')
+pickColor([255, 0, 0 , 1]);
+//findColor(hue.width, hue.height, 'rgba(255, 0, 0, 1');

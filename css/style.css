@@ -5,3 +5,7 @@ canvas {
 #chosen-color {
     border-radius: 10px;
 }
+
+div {
+    margin: auto;
+}
