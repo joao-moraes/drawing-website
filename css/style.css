@@ -9,13 +9,10 @@ body {
 canvas {
     border-style: solid;
     border-width: 1px;
-    display: inline-block;
-    margin: 5px;
 }
 
 div {
     background-color: rgba(185, 162, 187, 1);
-
 }
 
 #chosen-color {
@@ -29,11 +26,21 @@ div {
 }
 
 .tools {
-    display: inline-block;
+    display: grid;
+    grid-template-rows: 70% auto;
     margin: 10px;
     padding: 15px;
     width: 360px;
 }
 
+.tools-1 {
+    display: flex;
+    justify-content: space-evenly;
+    grid-row: 1 / 2;
+}
 
+.tools-2 {
+    display: flex;
+    grid-row: 2 / 3;
+}
 
