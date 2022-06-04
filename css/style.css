@@ -1,19 +1,22 @@
 body {
     display: flex;
-    justify-content: center;
+    justify-content: stretch;
     background-color: rgba(252, 226, 251, 1);
+    margin: 5px;
+    padding: 0;
 }
 
 canvas {
-    border-style: solid;
+    border-style: none;
     border-width: 1px;
     display: inline-block;
+    margin: 5px;
 }
 
 div.page-block {
     background-color: rgba(185, 162, 187, 1);
-    margin: 10px;
-    padding: 15px;
+    margin: 5px;
+    padding: 10px;
 }
 
 #chosen-color {
@@ -27,11 +30,14 @@ div.page-block {
 }
 
 #drawing {
-
+    border-style: none;
 }
 
 .tools-color {
-    width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 400px;
 }
 
 .tools-color-1 {
@@ -44,5 +50,5 @@ div.page-block {
 }
 
 .drawing-window {
-
+    display: inline-block;
 }

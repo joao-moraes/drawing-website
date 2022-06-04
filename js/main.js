@@ -156,15 +156,54 @@ function findColor(x, y, primary) {
     drawGuide(x, y);
 }
 
-drawPrimGradient();
-makeHue('rgba(255, 0, 0, 1')
-pickColor([255, 0, 0 , 1]);
-
-
-let tools = document.getElementsByClassName("tools-1");
-
 let h_width = hue.offsetWidth;
 primary.setAttribute("height", h_width);
 hue.setAttribute("width", h_width);
 hue.setAttribute("height", h_width);
 
+drawPrimGradient();
+makeHue('rgba(255, 0, 0, 1');
+pickColor([255, 0, 0 , 1]);
+
+
+//
+// initialize and draw out white background onto the drawing canvas
+let drawing = document.getElementById("drawing");
+let drawing_ctx = drawing.getContext("2d");
+drawing_ctx.fillStyle = "white";
+drawing_ctx.fillRect(0, 0, drawing.width, drawing.height);
+
+// event listeners for drawing
+let x_draw = 0;
+let y_draw = 0;
+let mouseDownDrawing = false;
+drawing.addEventListener("mousedown", function(event) {
+    x_draw = event.offsetX;
+    y_draw = event.offsetY;
+    mouseDownDrawing = true;
+});
+drawing.addEventListener("mousemove", function(event) {
+    if (mouseDownDrawing) {
+        drawLine(drawing_ctx, x_draw, y_draw, event.offsetX, event.offsetY);
+        x_draw = event.offsetX;
+        y_draw = event.offsetY;
+    }
+});
+document.addEventListener("mouseup", function(event) {
+    if (mouseDownDrawing) {
+        drawLine(drawing_ctx, x_draw, y_draw, event.offsetX, event.offsetY);
+        x_draw = 0;
+        y_draw = 0;
+        mouseDownDrawing = false;
+    }
+});
+
+function drawLine(context, x1, y1, x2, y2) {
+    context.beginPath();
+    context.strokeStyle = `rgba(${chosenColor[0]}, ${chosenColor[1]}, ${chosenColor[2]}, ${chosenColor[3]})`;
+    context.lineWidth = 1;
+    context.moveTo(x1, y1);
+    context.lineTo(x2, y2);
+    context.stroke();
+    context.closePath();
+  }
