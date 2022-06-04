@@ -1,13 +1,13 @@
 body {
     display: flex;
-    justify-content: center;
+    align-items: stretch;
     background-color: rgba(252, 226, 251, 1);
 }
 
 canvas {
     border-style: solid;
     border-width: 1px;
-    display: inline-block;
+    flex: 0 0 0;
 }
 
 div.page-block {
@@ -27,22 +27,29 @@ div.page-block {
 }
 
 #drawing {
-
+    background-color: white;
 }
 
-.tools-color {
-    width: 450px;
+.tools {
+    display: grid;
+    grid-template-rows: 70% auto;
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
 }
 
-.tools-color-1 {
+.tools-1 {
     display: flex;
     justify-content: space-evenly;
+    grid-row: 1 / 2;
 }
 
-.tools-color-2 {
-
+.tools-2 {
+    display: flex;
+    grid-row: 3 / 4;
 }
 
 .drawing-window {
-
+    grid-column: 2 / last;
+    grid-row: 1 / last;
+    overflow: auto;
 }

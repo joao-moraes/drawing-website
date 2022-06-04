@@ -6,7 +6,6 @@ let primary = document.getElementById("primary");
 let p_ctx = primary.getContext("2d");
 const STOP = 1 / 6;
 
-
 function drawPrimGradient() {
     let gradient = p_ctx.createLinearGradient(0, 0, 0, primary.height);
     gradient.addColorStop(0, 'rgb(255, 0, 0)');
@@ -57,7 +56,6 @@ primary.addEventListener("mousemove", function(event) {
             y = primary.height - 1;
         }
 
-        console.log(y);
         primaryColor = findPrimary(y)
         drawPrimGradient();
         findColor(x_hue, y_hue, primaryColor);
@@ -98,6 +96,7 @@ let chosenColor;
 
 // event listeners for the hue selector
 hue.addEventListener("mousedown", function(event) {
+
     mouseDownHue = true;
     x_hue = event.offsetX;
     y_hue = event.offsetY;
@@ -162,5 +161,10 @@ makeHue('rgba(255, 0, 0, 1')
 pickColor([255, 0, 0 , 1]);
 
 
-//
-// create the drawing canvas
+let tools = document.getElementsByClassName("tools-1");
+
+let h_width = hue.offsetWidth;
+primary.setAttribute("height", h_width);
+hue.setAttribute("width", h_width);
+hue.setAttribute("height", h_width);
+
