@@ -1,10 +1,11 @@
 body {
     display: flex;
     justify-content: stretch;
-    background-color: rgba(252, 226, 251, 1);
+    background-color: rgb(187, 188, 201);
     margin: 5px;
     padding: 0;
 }
+
 
 canvas {
     border-style: none;
@@ -14,7 +15,7 @@ canvas {
 }
 
 div.page-block {
-    background-color: rgba(185, 162, 187, 1);
+    background-color: rgba(56, 57, 79, 1);
     margin: 5px;
     padding: 10px;
 }
@@ -33,8 +34,19 @@ div.page-block {
     border-style: none;
 }
 
+.nav-tools {
+    background-color:rgb(92, 95, 160);
+    position: relative;;
+    top: -14px;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: 60px;
+    text-align: center;
+}
+
 .tools-color {
     display: flex;
+    position: sticky;
     flex-direction: column;
     justify-content: space-evenly;
     width: 400px;
@@ -42,7 +54,7 @@ div.page-block {
 
 .tools-color-1 {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 /*.tools-color-2 {
@@ -51,4 +63,5 @@ div.page-block {
 
 .drawing-window {
     display: inline-block;
+    width: 100%;
 }
