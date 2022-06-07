@@ -146,7 +146,7 @@ function pickColor(pixelHue) {
     chosenColor = pixelHue;
 }
 
-// 
+// redraw hue selector and set the chosen color variable
 function findColor(x, y, primary) {
     makeHue(primary);
     let hueData = h_ctx.getImageData(x, y, 1, 1);
@@ -200,7 +200,7 @@ drawing_container[0].addEventListener("mousemove", function(event) {
         y_draw = event.offsetY;
     }
 });
-document.addEventListener("mouseup", function(event) {
+document.addEventListener("mouseup", function() {
     if (mouseDownDrawing) {
         x_draw = 0;
         y_draw = 0;

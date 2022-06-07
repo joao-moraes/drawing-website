@@ -50,6 +50,7 @@ div.page-block {
     flex-direction: column;
     justify-content: flex-start;
     width: 400px;
+    height: auto;
 }
 
 .tools-color-1 {
@@ -64,6 +65,7 @@ div.page-block {
 
 .drawing-window {
     display: flex;
+    align-items: center;
     width: 100%;
   
 }
