@@ -7,9 +7,9 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <div class="tools-color page-block">
+        <div class="toolbox page-block">
             <nav class="nav-tools">
-                <p>File - Color - Tools - Chat</p>
+                <p>File - Color - Tools</p>
             </nav>
             <div class="tools-color-1">
                 <canvas id="hue-sat" width="300px" height="300px"></canvas>
@@ -21,7 +21,10 @@
             </div>
         </div>
         <div class="drawing-window page-block">
-                <canvas id="drawing" width="800px" height="540px"></canvas>
+            <div class="drawing-container">
+                <canvas id="drawing-layer-0" width="800px" height="1000px"></canvas>
+                <canvas id="drawing-layer-1" width="800px" height="1000px"></canvas>
+            </div>
         </div>
     <script src="js/main.js"></script>
     </body>

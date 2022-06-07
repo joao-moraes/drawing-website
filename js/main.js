@@ -167,31 +167,41 @@ pickColor([255, 0, 0 , 1]);
 
 
 //
-// initialize and draw out white background onto the drawing canvas
-let drawing = document.getElementById("drawing");
-let drawing_ctx = drawing.getContext("2d");
-drawing_ctx.fillStyle = "white";
-drawing_ctx.fillRect(0, 0, drawing.width, drawing.height);
+// creates two canvas contexts as the drawing board. The listener for drawing is based on the div containing the two canvases
+let drawing_0 = document.getElementById("drawing-layer-0");
+let drawing_0_ctx = drawing_0.getContext("2d");
+drawing_0_ctx.fillStyle = "white";
+drawing_0_ctx.fillRect(0, 0, drawing_0.width, drawing_0.height);
 
-// event listeners for drawing
+// get second layer of drawing_1 canvas
+let drawing_1 = document.getElementById("drawing-layer-1");
+let drawing_1_ctx = drawing_1.getContext("2d");
+drawing_1_ctx.fillStyle = "rgba(180, 50, 50, 0.2)";
+drawing_1_ctx.fillRect(0, 0, drawing_1.width, drawing_1.height);
+
+// get canvas container element as event listener
+let drawing_container = document.getElementsByClassName("drawing-container");
+let active_layer = drawing_1_ctx;
+
+// event listeners for drawing_0
 let x_draw = 0;
 let y_draw = 0;
 let mouseDownDrawing = false;
-drawing.addEventListener("mousedown", function(event) {
+drawing_container[0].addEventListener("mousedown", function(event) {
     x_draw = event.offsetX;
     y_draw = event.offsetY;
+    drawLine(active_layer, x_draw, y_draw, event.offsetX, event.offsetY);
     mouseDownDrawing = true;
 });
-drawing.addEventListener("mousemove", function(event) {
+drawing_container[0].addEventListener("mousemove", function(event) {
     if (mouseDownDrawing) {
-        drawLine(drawing_ctx, x_draw, y_draw, event.offsetX, event.offsetY);
+        drawLine(active_layer, x_draw, y_draw, event.offsetX, event.offsetY);
         x_draw = event.offsetX;
         y_draw = event.offsetY;
     }
 });
 document.addEventListener("mouseup", function(event) {
     if (mouseDownDrawing) {
-        drawLine(drawing_ctx, x_draw, y_draw, event.offsetX, event.offsetY);
         x_draw = 0;
         y_draw = 0;
         mouseDownDrawing = false;
@@ -200,10 +210,13 @@ document.addEventListener("mouseup", function(event) {
 
 function drawLine(context, x1, y1, x2, y2) {
     context.beginPath();
+    context.lineWidth = 5;
+    context.lineCap = "round";
     context.strokeStyle = `rgba(${chosenColor[0]}, ${chosenColor[1]}, ${chosenColor[2]}, ${chosenColor[3]})`;
-    context.lineWidth = 1;
     context.moveTo(x1, y1);
     context.lineTo(x2, y2);
     context.stroke();
     context.closePath();
-  }
+}
+
+
