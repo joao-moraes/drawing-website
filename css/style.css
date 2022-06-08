@@ -75,3 +75,14 @@ div.page-block {
     margin: auto;
     padding: 0;
 }
+
+.rgb-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.rgb-number {
+    height: 25px;
+    margin: 5px;
+    border-radius: 10px;
+}

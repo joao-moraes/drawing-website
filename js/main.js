@@ -6,6 +6,11 @@ let primary = document.getElementById("primary");
 let p_ctx = primary.getContext("2d");
 const STOP = 1 / 6;
 
+let red_number = document.getElementById("red-number");
+let green_number = document.getElementById("green-number");
+let blue_number = document.getElementById("blue-number");
+
+
 function drawPrimGradient() {
     let gradient = p_ctx.createLinearGradient(0, 0, 0, primary.height);
     gradient.addColorStop(0, 'rgb(255, 0, 0)');
@@ -19,13 +24,14 @@ function drawPrimGradient() {
     p_ctx.fillRect(0, 0, primary.width, primary.height);
 }
 
-function drawPrimGuide(y_prim) {
-    if (y_prim % 1 == 0) {
-        y_prim += 0.5;
+function drawPrimGuide(y) {
+    if (y % 1 == 0) {
+        y += 0.5
     }
+
     p_ctx.beginPath();
-    p_ctx.moveTo(0, y_prim);
-    p_ctx.lineTo(primary.width, y_prim);
+    p_ctx.moveTo(0, y);
+    p_ctx.lineTo(primary.width, y);
     p_ctx.stroke();
 }
 
@@ -34,32 +40,34 @@ function findPrimary(y) {
     drawPrimGradient();
     let primaryData = p_ctx.getImageData(1, y, 1, 1);
     let pixelPrimary = primaryData.data;
+    drawPrimGuide(y);
     return `rgba(${pixelPrimary[0]}, ${pixelPrimary[1]}, ${pixelPrimary[2]}, ${pixelPrimary[3] / 255})`;
 }
 //
 // update the desired primary color based on mouse click. Uses three Event Listeners to detect mousedown, drag, and release
 let primaryColor = "rgb(255, 0, 0, 1)";
 let mouseDownPrimary = false;
+let y_prim = 0;
 primary.addEventListener("mousedown", function(event) {
     mouseDownPrimary = true;
-    let y = event.offsetY;
+    y_prim = event.offsetY;
 
-    primaryColor = findPrimary(y)
+    primaryColor = findPrimary(y_prim)
     drawPrimGradient();
     findColor(x_hue, y_hue, primaryColor);
-    drawPrimGuide(y);
+    drawPrimGuide(y_prim);
 });
 primary.addEventListener("mousemove", function(event) {
     if (mouseDownPrimary) {
-        let y = event.offsetY;
-        if (y == primary.height) {
-            y = primary.height - 1;
+        y_prim = event.offsetY;
+        if (y_prim == primary.height) {
+            y_prim = primary.height - 1;
         }
 
-        primaryColor = findPrimary(y)
+        primaryColor = findPrimary(y_prim)
         drawPrimGradient();
         findColor(x_hue, y_hue, primaryColor);
-        drawPrimGuide(y);
+        drawPrimGuide(y_prim);
     }
 });
 document.addEventListener("mouseup", function(event) {
@@ -144,6 +152,8 @@ function pickColor(pixelHue) {
     picked_ctx.fillStyle = `rgba(${pixelHue[0]}, ${pixelHue[1]}, ${pixelHue[2]}, ${pixelHue[3]})`;
     picked_ctx.fillRect(0, 0, pickedColor.width, pickedColor.height);
     chosenColor = pixelHue;
+    updateRgbNumber();
+    console.log(chosenColor); /////
 }
 
 // redraw hue selector and set the chosen color variable
@@ -220,3 +230,119 @@ function drawLine(context, x1, y1, x2, y2) {
 }
 
 
+//
+// rgb-number inputs functionality
+function findHighestPrim(colorArr) {
+    let color_placeholder = [...colorArr];
+    let highest_index = color_placeholder.indexOf(Math.max.apply(null, color_placeholder));
+    color_placeholder[highest_index] = -1;
+    let second_index = color_placeholder.indexOf(Math.max.apply(null, color_placeholder));
+    color_placeholder[second_index] = -1;
+    let third_index = color_placeholder.indexOf(Math.max.apply(null, color_placeholder));
+    return [highest_index, second_index, third_index];
+}
+
+function updateRgbNumber() {
+    red_number.value = chosenColor[0];
+    green_number.value = chosenColor[1];
+    blue_number.value = chosenColor[2];
+}
+
+red_number.addEventListener("change", function(event) {
+    chosenColor[0] = event.target.value;
+    let highest_colors = findHighestPrim(chosenColor);
+    switch (true) {
+        case (highest_colors[0] == 0):
+            if (highest_colors[1] == 1) {
+                updateOnNumberChange(highest_colors, 0, 1);
+            } else {
+                updateOnNumberChange(highest_colors, 6, -1);
+            }
+            break;
+        case (highest_colors[0] == 1):
+            if (highest_colors[1] == 0) {
+                updateOnNumberChange(highest_colors, 2, -1);
+            } else {
+                updateOnNumberChange(highest_colors, 2, 1);
+            }
+            break;
+        case (highest_colors[0] == 2):
+            if (highest_colors[1] == 0) {
+                updateOnNumberChange(highest_colors, 4, 1);
+            } else {
+                updateOnNumberChange(highest_colors, 4, 1);
+            }
+            break;
+    }
+});
+
+green_number.addEventListener("change", function(event) {
+    chosenColor[1] = event.target.value;
+    let highest_colors = findHighestPrim(chosenColor);
+    switch (true) {
+        case (highest_colors[0] == 0):
+            if (highest_colors[1] == 1) {
+                updateOnNumberChange(highest_colors, 0, 1);
+            } else {
+                updateOnNumberChange(highest_colors, 6, -1);
+            }
+            break;
+        case (highest_colors[0] == 1):
+            if (highest_colors[1] == 0) {
+                updateOnNumberChange(highest_colors, 2, -1);
+            } else {
+                updateOnNumberChange(highest_colors, 2, 1);
+            }
+            break;
+        case (highest_colors[0] == 2):
+            if (highest_colors[1] == 1) {
+                updateOnNumberChange(highest_colors, 4, -1);
+            } else {
+                updateOnNumberChange(highest_colors, 4, 1);
+            }
+            break;
+    }
+});
+
+blue_number.addEventListener("change", function(event) {
+    chosenColor[2] = event.target.value;
+    let highest_colors = findHighestPrim(chosenColor);
+    switch (true) {
+        case (highest_colors[0] == 0):
+            if (highest_colors[1] == 2) {
+                updateOnNumberChange(highest_colors, 6, -1);
+            } else {
+                updateOnNumberChange(highest_colors, 0, 1);
+            }
+            break;
+        case (highest_colors[0] == 1):
+            if (highest_colors[1] == 2) {
+                updateOnNumberChange(highest_colors, 2, 1);
+            } else {
+                updateOnNumberChange(highest_colors, 2, -1);
+            }
+            break;
+        case (highest_colors[0] == 2):
+            if (highest_colors[1] == 0) {
+                updateOnNumberChange(highest_colors, 4, 1);
+            } else {
+                updateOnNumberChange(highest_colors, 4, -1);
+            }
+            break;
+    }
+});
+
+const HEIGHT_STOP = primary.height / 6;
+
+function updateOnNumberChange(indexes, stop_number, direction) {
+     y_hue = (255 - chosenColor[indexes[0]]) / (255 / hue.width); console.log("y-hue " + y_hue);
+     x_hue = (chosenColor[indexes[0]] - chosenColor[indexes[2]]) * (hue.width / chosenColor[indexes[0]]); console.log("x-hue " + x_hue);
+     y_prim = (stop_number * HEIGHT_STOP) + direction * HEIGHT_STOP * (chosenColor[indexes[1]] - chosenColor[indexes[2]]) / (chosenColor[indexes[0]] - chosenColor[indexes[2]]);
+     primaryColor = findPrimary(y_prim);
+ 
+     drawPrimGradient();
+     drawPrimGuide(y_prim);
+     makeHue(primaryColor);
+     drawGuide(x_hue, y_hue);
+     pickColor(chosenColor);
+ }
