@@ -9,7 +9,7 @@ body {
 
 canvas {
     border-width: 1px;
-    display: inline-block;
+    display: block;
     margin: 5px;
 }
 
@@ -39,6 +39,8 @@ div.page-block {
 }
 
 .nav-tools {
+    display: flex;
+    justify-content: stretch;
     background-color:rgb(92, 95, 160);
     text-align: center;
     margin: -10px -10px 10px;
@@ -72,6 +74,7 @@ div.page-block {
 
 .drawing-container {
     position: relative;
+    vertical-align: middle;
     margin: auto;
     padding: 0;
 }
@@ -79,10 +82,78 @@ div.page-block {
 .rgb-container {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    margin: 5px;
+    color: rgb(113, 114, 122);
 }
 
 .rgb-number {
     height: 25px;
     margin: 5px;
+    margin-right: 0;
+    border-style: none;
     border-radius: 10px;
+    background-color: rgb(187, 188, 201);
+    text-align: center;
+}
+
+.number {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#color-palette {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-style: none;
+    box-shadow: 5px 3px 3px inset rgba(0, 0, 0, .25);
+    background-color: rgb(97, 98, 112);
+    height: auto;
+    margin: 5px;
+}
+
+.palette-button {
+    float: left;
+    background-color: gray;
+    border-style: hidden;
+    border-color: rgb(201, 201, 201);
+    border-width: 3px;
+    font-size: large;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.palette-button:hover {
+    background-color: rgb(151, 151, 151);
+}
+
+.palette-button:active {
+    background-color: rgb(104, 104, 104);
+}
+
+.tools-tab {
+    float: left;
+    background-color:rgb(92, 95, 160);
+    padding: 10px;
+    border-style: none;
+}
+
+.tools-tab:hover {
+    background-color: rgb(73, 76, 129);
 }

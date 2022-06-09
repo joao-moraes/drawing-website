@@ -9,22 +9,32 @@
     <body>
         <div class="toolbox page-block">
             <nav class="nav-tools">
-                <p>File - Color - Tools</p>
-            </nav>
-            <div class="tools-color-1">
-                <canvas id="hue-sat" width="300px" height="300px"></canvas>
-                <canvas id="primary" width="30px" height="300px"></canvas>
-            </div>
-            <br>
-            <div class="tools-color-2">
-                <canvas id="chosen-color" width="150px" height="150px"></canvas>
-                <div class="rgb-container">
-                    <label for="red-number">Red</label>
-                    <input class="rgb-number" type="number" id="red-number" name="red-number" min="0" max="255" value="0">
-                    <label for="green-number">Green</label>
-                    <input class="rgb-number" type="number" id="green-number" name="green-number" min="0" max="255" value="0">
-                    <label for="blue-number">Blue</label>
-                    <input class="rgb-number" type="number" id="blue-number" name="blue-number" min="0" max="255" value="0" role="spinbutton">
+            <div>
+                    <button class="tools-tab">File</button>
+                    <button class="tools-tab">Color</button>
+                    <button class="tools-tab">Tools</button>
+                </nav>
+                <div class="tools-color-1">
+                    <canvas id="hue-sat" width="300px" height="300px"></canvas>
+                    <canvas id="primary" width="30px" height="300px"></canvas>
+                </div>
+                <div class="tools-color-2">
+                    <canvas id="chosen-color" width="150px" height="150px"></canvas>
+                    <div class="rgb-container">
+                        <span class="number">
+                            <label for="red-number">R&nbsp</label><input class="rgb-number" type="number" id="red-number" name="red-number" min="0" max="255" value="0">
+                        </span>
+                        <span class="number">
+                            <label for="green-number">G&nbsp</label><input class="rgb-number" type="number" id="green-number" name="green-number" min="0" max="255" value="0">
+                        </span>
+                        <span class="number">
+                            <label for="blue-number">B&nbsp</label><input class="rgb-number" type="number" id="blue-number" name="blue-number" min="0" max="255" value="0">
+                        </span>
+                    </div>
+                </div>
+                <div id="color-palette">
+                    <button class="palette-button" onclick="addToPalette()">+</button>
+                    <button class="palette-button" onclick="removePalette()">-</button>
                 </div>
             </div>
         </div>
