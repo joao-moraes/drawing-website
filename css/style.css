@@ -27,6 +27,10 @@ div.page-block {
     border-radius: 5px;
 }
 
+#hue-sat:hover {
+    cursor: crosshair;
+}
+
 #drawing-layer-0 {
     margin: 0;
 }
@@ -37,6 +41,13 @@ div.page-block {
     top: 0;
     left: 0;
 }
+
+/*#drawing-layer-2 {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: 0;
+}*/
 
 .nav-tools {
     display: flex;
@@ -69,7 +80,6 @@ div.page-block {
     display: flex;
     align-items: center;
     width: 100%;
-  
 }
 
 .drawing-container {
@@ -77,6 +87,7 @@ div.page-block {
     vertical-align: middle;
     margin: auto;
     padding: 0;
+    cursor: crosshair;
 }
 
 .rgb-container {
@@ -141,6 +152,7 @@ input[type=number] {
 
 .palette-button:hover {
     background-color: rgb(151, 151, 151);
+    cursor: pointer;
 }
 
 .palette-button:active {

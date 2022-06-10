@@ -9,7 +9,7 @@
     <body>
         <div class="toolbox page-block">
             <nav class="nav-tools">
-            <div>
+                <div>
                     <button class="tools-tab">File</button>
                     <button class="tools-tab">Color</button>
                     <button class="tools-tab">Tools</button>
@@ -31,6 +31,9 @@
                             <label for="blue-number">B&nbsp</label><input class="rgb-number" type="number" id="blue-number" name="blue-number" min="0" max="255" value="0">
                         </span>
                     </div>
+                </div>
+                <div class="tools-drawing">
+                    <input type="range" min="0.1" max="5.1" value="Math.E" step="0.2" id="brush-size">
                 </div>
                 <div id="color-palette">
                     <button class="palette-button" onclick="addToPalette()">+</button>

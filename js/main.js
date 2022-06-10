@@ -60,10 +60,7 @@ primary.addEventListener("mousedown", function(event) {
 });
 primary.addEventListener("mousemove", function(event) {
     if (mouseDownPrimary) {
-        y_prim = event.offsetY;
-        if (y_prim == primary.height) {
-            y_prim = primary.height - 1;
-        }
+        y_prim = (event.offsetY == primary.height) ? primary.height - 1 : event.offsetY;
 
         primaryColor = findPrimary(y_prim)
         drawPrimGradient();
@@ -100,8 +97,8 @@ function makeHue(currentColor) {
 // select the desired color on the hue box
 let mouseDownHue = false;
 let x = hue.width - 1;
-let y = 0;
-let chosenColor;
+let y = hue.height - 1;
+let chosenColor = [0, 0, 0, 1];
 
 // event listeners for the hue selector
 hue.addEventListener("mousedown", function(event) {
@@ -110,23 +107,16 @@ hue.addEventListener("mousedown", function(event) {
         active_palette = null;
     }
     mouseDownHue = true;
-    if (event.offsetX == 300) {
-        x = 299;
-    } else {
-        x = event.offsetX;
-    }
-    y = event.offsetY;
-    
+
+    x = (event.offsetX == hue.width) ? hue.width - 1 : event.offsetX;
+    y = (event.offsetY == hue.height) ? hue.height - 1 : event.offsetY;
+
     findColor(x, y, primaryColor);
 });
 hue.addEventListener("mousemove", function(event) {
     if (mouseDownHue) {
-        if (event.offsetX == 300) {
-            x = 299;
-        } else {
-            x = event.offsetX;
-        }
-        y = event.offsetY;
+        x = (event.offsetX == hue.width) ? hue.width - 1 : event.offsetX;
+        y = (event.offsetY == hue.height) ? hue.height - 1 : event.offsetY;
         
         findColor(x, y, primaryColor);
     }
@@ -161,7 +151,6 @@ function pickColor(pixelHue) {
     picked_ctx.fillRect(0, 0, pickedColor.width, pickedColor.height);
     chosenColor = pixelHue;
     updateRgbNumber();
-    console.log(chosenColor); /////
 }
 
 // redraw hue selector and set the chosen color variable
@@ -185,6 +174,9 @@ let drawing_1 = document.getElementById("drawing-layer-1");
 let drawing_1_ctx = drawing_1.getContext("2d");
 drawing_1_ctx.fillStyle = "rgba(180, 50, 50, 0.2)";
 drawing_1_ctx.fillRect(0, 0, drawing_1.width, drawing_1.height);
+
+drawing_0_ctx.imageSmoothingQuality = "high";
+drawing_1_ctx.imageSmoothingQuality = "high";
 
 // get canvas container element as event listener
 let drawing_container = document.getElementsByClassName("drawing-container");
@@ -217,7 +209,7 @@ document.addEventListener("mouseup", function() {
 
 function drawLine(context, x1, y1, x2, y2) {
     context.beginPath();
-    context.lineWidth = 5;
+    context.lineWidth = brush_size;
     context.lineCap = "round";
     context.strokeStyle = `rgba(${chosenColor[0]}, ${chosenColor[1]}, ${chosenColor[2]}, ${chosenColor[3]})`;
     context.moveTo(x1, y1);
@@ -344,8 +336,8 @@ blue_number.addEventListener("change", function(event) {
 const HEIGHT_STOP = primary.height / 6;
 
 function updateOnNumberChange(indexes, stop_number, direction) {
-    y = (255 - chosenColor[indexes[0]]) / (255 / hue.width); console.log("y-hue " + y);
-    x = (chosenColor[indexes[0]] - chosenColor[indexes[2]]) * (hue.width / (chosenColor[indexes[0]])); console.log("x-hue " + x);
+    y = (255 - chosenColor[indexes[0]]) / (255 / hue.width);
+    x = (chosenColor[indexes[0]] - chosenColor[indexes[2]]) * (hue.width / (chosenColor[indexes[0]]));
     y_prim = (stop_number * HEIGHT_STOP) + direction * HEIGHT_STOP * (chosenColor[indexes[1]] - chosenColor[indexes[2]]) / (chosenColor[indexes[0]] - chosenColor[indexes[2]] + 1);
     if (chosenColor[0] == chosenColor[1] && chosenColor[0] == chosenColor[2]) {
         x = 0;
@@ -369,7 +361,7 @@ hue.setAttribute("height", h_width);
 
 drawPrimGradient();
 makeHue('rgba(255, 0, 0, 1');
-pickColor([255, 0, 0 , 1]);
+pickColor(chosenColor);
 
 //
 // Color palette functionality
@@ -397,6 +389,7 @@ function addToPalette() {
     palette_container.appendChild(new_palette);
 }
 
+// remove white border from previous active color (if present), then extract the rgb values of the newly selected color, make it the active color, and readjust the color wheel
 function choosePalette(id) {
     if (active_palette) {
         document.getElementById(active_palette).style.borderStyle = "hidden";
@@ -411,7 +404,7 @@ function choosePalette(id) {
     chosenColor = str.substring(4).split(")")[0].split(sep).map(Number);
     chosenColor.push(1);
 
-    // copied from rgb-change event listeners, same code applies to all scenarios
+    // copied from rgb-change event listeners, same code applies to all scenarios. Should just turn this into its own function
     let highest_colors = findHighestPrim(chosenColor);
     switch (true) {
         case (highest_colors[0] == 0):
@@ -444,3 +437,13 @@ function removePalette() {
         active_palette = null;
     }
 }
+
+
+//
+// other tools
+//brush size
+let brush_size_tool = document.getElementById("brush-size");
+let brush_size = Math.E;
+brush_size_tool.addEventListener("change", function(event) {
+    brush_size = Math.E ** event.target.value;
+});
